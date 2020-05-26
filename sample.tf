@@ -3,8 +3,8 @@ variable "secret_key" {}
 
 
 provider "aws" {
-  access_key = “aws_access_key_id”
-  secret_key = “aws_secret_access_key_id”
+  access_key = "aws_access_key_id"
+  secret_key = "aws_secret_access_key_id"
   region     = "us-west-1"
 }
 
