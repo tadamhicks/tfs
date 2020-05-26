@@ -1,10 +1,10 @@
-variable "access_key" {}
-variable "secret_key" {}
+#variable "access_key" {}
+#variable "secret_key" {}
 
 
 provider "aws" {
-  access_key = "aws_access_key_id"
-  secret_key = "aws_secret_access_key_id"
+  access_key = "${var.access_key}"
+  secret_key = "${var.secret_key}"
   region     = "us-west-1"
 }
 
@@ -18,10 +18,8 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = ["${aws_security_group.instance.id}"]
   source_dest_check = false
   instance_type = "t2.micro"
-tags {
-    Name = "${format("web-%03d", count.index + 1)}"
-  }
 }
+
 ### Creating Security Group for EC2
 resource "aws_security_group" "instance" {
   name = "terraform-example-instance"
@@ -60,11 +58,7 @@ resource "aws_autoscaling_group" "example" {
   max_size = 10
   load_balancers = ["${aws_elb.example.name}"]
   health_check_type = "ELB"
-  tag {
-    key = "Name"
-    value = "terraform-asg-example"
-    propagate_at_launch = true
-  }
+
 }
 ## Security Group for ELB
 resource "aws_security_group" "elb" {
